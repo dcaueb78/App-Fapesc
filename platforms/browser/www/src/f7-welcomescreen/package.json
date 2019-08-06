@@ -1,0 +1,44 @@
+{
+  "_from": "f7-welcomescreen",
+  "_id": "f7-welcomescreen@2.1.4",
+  "_inBundle": false,
+  "_integrity": "sha512-I1GjUPp0ez3nPVS9ZebDxactUHJf3kZtnu0pr/+ulZeuFQqEpq6SR/nAl0fNKcaLMe6fQoK6ycCvu2iK2wW29A==",
+  "_location": "/f7-welcomescreen",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "f7-welcomescreen",
+    "name": "f7-welcomescreen",
+    "escapedName": "f7-welcomescreen",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/f7-welcomescreen/-/f7-welcomescreen-2.1.4.tgz",
+  "_shasum": "35c61130775a5d20968030e83e2e07f377fedbc8",
+  "_spec": "f7-welcomescreen",
+  "_where": "C:\\Users\\6884423\\Documents\\Fapesc\\App",
+  "author": {
+    "name": "Timo Ernst"
+  },
+  "bugs": {
+    "url": "https://github.com/valnub/Framework7-Plugin-Welcomescreen/issues"
+  },
+  "bundleDependencies": false,
+  "deprecated": false,
+  "description": "This Framework7 plugin will guide the user through a tour of your app.",
+  "homepage": "https://github.com/valnub/Framework7-Plugin-Welcomescreen",
+  "license": "MIT",
+  "main": "src/f7.welcomescreen.js",
+  "name": "f7-welcomescreen",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/valnub/Framework7-Plugin-Welcomescreen.git"
+  },
+  "version": "2.1.4"
+}
