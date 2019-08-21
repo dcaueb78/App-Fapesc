@@ -134,7 +134,7 @@ var pagesLengthReal = 0.0;
 atualizaNoticias(8, 1);
 
 
-function pesquisar(pesquisa, categoria) {
+async function pesquisar(pesquisa, categoria) {
   Framework7.request({
     url: 'http://localhost/portal/webservice/index.php?search=' + pesquisa + '&catid=' + categoria,
     method: "POST",
@@ -142,9 +142,11 @@ function pesquisar(pesquisa, categoria) {
     dataType: 'json',
     crossDomain: true,
     statusCode: {
-      200: function (xhr) {
-        console.log(xhr.response)
-        dados = JSON.parse(xhr.response);
+      200: async function (xhr) {
+        dados = await JSON.parse(xhr.response);
+        pagesLengthReal = await ((dados["length"] % 10));
+        pagesLength = await Math.trunc(dados["length"] / 10);
+        await console.log('###############################' + pagesLength);
 
         pageAtual = 1;
         pageCount = ((pageAtual - 1) * 10)
@@ -180,15 +182,18 @@ function pesquisar(pesquisa, categoria) {
           noticiaid.value = dados[pageCount].id;
           pageCount++;
         }
-        pagesLengthReal = ((dados["length"] % 10));
-        pagesLength = Math.trunc(dados["length"] / 10);
+        // pagesLengthReal = ((dados["length"] % 10));
+        // pagesLength = Math.trunc(dados["length"] / 10);
+
+        await console.log('atualizando page' + pagesLength);
+        await atualizaPage(1, false);
       }
     }
   });
 }
 
 function atualizaNoticias(catid, nextPage, search) {
-  if (search===undefined) {
+  if (search === undefined) {
     Framework7.request({
       url: 'http://localhost/portal/webservice/index.php?catid=' + catid,
       method: "POST",
@@ -196,10 +201,12 @@ function atualizaNoticias(catid, nextPage, search) {
       dataType: 'json',
       crossDomain: true,
       statusCode: {
-        200: function (xhr) {
+        200: async function (xhr) {
           console.log(xhr.response)
           dados = JSON.parse(xhr.response);
 
+          pagesLengthReal = ((dados["length"] % 10));
+          pagesLength = Math.trunc(dados["length"] / 10);
 
           pageAtual = nextPage;
           pageCount = ((pageAtual - 1) * 10)
@@ -285,16 +292,24 @@ function totalPages() {
 }
 
 var newsNumber = 0;
-var oi = "oiiiiiiiiiiiiiiiiii";
 function newsCount(number) {
   newsNumber = number;
   oi = newsNumber;
 }
 
-function searchNews() {
+async function searchNews() {
   var search = document.getElementById('search').value;
   pesquisar(search, topicoAtual);
-  atualizaPage(1);
+  // pesquisa = new Promise((resolve, reject) => {
+  //   pesquisar(search, topicoAtual);
+
+  //   resolve();
+  // }
+  // ).then(values => {
+  //   atualizaPage(1, false)
+  // }
+  // );
+
 };
 
 
@@ -738,8 +753,8 @@ document.getElementById('filtroGteas').onclick = function () {
 };
 
 
-function atualizaPage(icone) {
-
+function atualizaPage(icone, clickIcone) {
+  console.log('###############################' + pagesLength + "oi");
   let primeiro = document.getElementById('pageLink1');
   let ultimo = document.getElementById('pageLink9');
   let oitavo = document.getElementById("pageLink8");
@@ -783,13 +798,14 @@ function atualizaPage(icone) {
     primeiro.innerHTML = '1';
     ultimo.innerHTML = pagesLength;
 
-    atualMenosDois.className = 'pageColor'
-    atualMenosUm.className = 'pageColor'
+    atualMenosDois.className = 'pageColor';
+    atualMenosUm.className = 'pageColor';
     atual.className = 'pageAtualColor';
     atualMaisUm.className = 'pageColor';
     atualMaisDois.className = 'pageColor';
-
-    atualizaNoticias(topicoAtual, pageAtual);
+    if (clickIcone) {
+      atualizaNoticias(topicoAtual, pageAtual);
+    }
 
   } else if (pageAtual >= pagesLength - 3 && pagesLength > 5) {
     let primeiro = document.getElementById('pageLink1');
@@ -896,9 +912,9 @@ function atualizaPage(icone) {
         ultimo.className = 'pageAtualColor';
         break;
     }
-
-    atualizaNoticias(topicoAtual, pageAtual);
-
+    if (clickIcone) {
+      atualizaNoticias(topicoAtual, pageAtual);
+    }
   } else if (pageAtual <= 5 && pagesLength > 9) {
     let primeiro = document.getElementById('pageLink1');
     let ultimo = document.getElementById('pageLink9');
@@ -1006,8 +1022,9 @@ function atualizaPage(icone) {
         break;
 
     }
-    atualizaNoticias(topicoAtual, pageAtual, true);
-
+    if (clickIcone) {
+      atualizaNoticias(topicoAtual, pageAtual, true);
+    }
   } else if (pageAtual <= 5 && pagesLength < 9) {
     let primeiro = document.getElementById('pageLink1');
     let ultimo = document.getElementById('pageLink9');
