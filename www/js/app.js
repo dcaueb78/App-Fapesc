@@ -192,7 +192,7 @@ async function pesquisar(pesquisa, categoria) {
   });
 }
 
-function atualizaNoticias(catid, nextPage, search) {
+async function atualizaNoticias(catid, nextPage, search) {
   if (search === undefined) {
     Framework7.request({
       url: 'http://localhost/portal/webservice/index.php?catid=' + catid,
@@ -244,6 +244,8 @@ function atualizaNoticias(catid, nextPage, search) {
           }
           pagesLengthReal = ((dados["length"] % 10));
           pagesLength = Math.trunc(dados["length"] / 10);
+
+          atualizaPage(1);
         }
       }
     })
@@ -707,7 +709,6 @@ document.getElementById('filtroNoticias').onclick = function () {
   logoMenu.src = "src/imgs/logotopo.png";
   atualizaNoticias(8, pageAtual)
   document.getElementById('nomeFiltros').innerText = 'NOTÍCIAS';
-  atualizaPage(1);
 };
 
 document.getElementById('filtroProjetos').onclick = function () {
@@ -721,7 +722,6 @@ document.getElementById('filtroProjetos').onclick = function () {
   logoMenu.src = "src/imgs/logotopo.png";
   atualizaNoticias(9, pageAtual);
   document.getElementById('nomeFiltros').innerHTML = 'PROJETOS';
-  atualizaPage(1);
 };
 
 document.getElementById('filtroAgenda').onclick = function () {
@@ -735,7 +735,6 @@ document.getElementById('filtroAgenda').onclick = function () {
   logoMenu.src = "src/imgs/logotopo.png";
   atualizaNoticias(8, pageAtual)
   document.getElementById('nomeFiltros').innerText = 'AGENDA';
-  atualizaPage(1)
 };
 
 document.getElementById('filtroGteas').onclick = function () {
@@ -747,14 +746,12 @@ document.getElementById('filtroGteas').onclick = function () {
   }
   let logoMenu = document.getElementById('logoMenu');
   logoMenu.src = "src/imgs/folhinha.png";
-  atualizaNoticias(16, pageAtual)
+  atualizaNoticias(16, pageAtual);;
   document.getElementById('nomeFiltros').innerText = 'GTEAS';
-  atualizaPage(1);
 };
 
 
 function atualizaPage(icone, clickIcone) {
-  console.log('###############################' + pagesLength + "oi");
   let primeiro = document.getElementById('pageLink1');
   let ultimo = document.getElementById('pageLink9');
   let oitavo = document.getElementById("pageLink8");
