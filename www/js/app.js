@@ -1022,6 +1022,27 @@ function atualizaPage(icone, clickIcone) {
     if (clickIcone) {
       atualizaNoticias(topicoAtual, pageAtual, true);
     }
+  } else if (pageAtual==1 && pagesLength==1) {
+
+    let primeiro = document.getElementById('pageLink1');
+    let ultimo = document.getElementById('pageLink9');
+    let oitavo = document.getElementById("pageLink8");
+    let segundo = document.getElementById("pageLink2");
+    let terceiro = document.getElementById("pageLink3");
+    let quarto = document.getElementById("pageLink4");
+    let quinto = document.getElementById("pageLink5");
+    let sexto = document.getElementById("pageLink6");
+    let setimo = document.getElementById("pageLink7");
+
+    segundo.style.display = "none";
+    terceiro.style.display = "none";
+    quarto.style.display = "none";
+    quinto.style.display = "none";
+    sexto.style.display = "none";
+    setimo.style.display = "none";
+    oitavo.style.display = "none";
+    ultimo.style.display = "none";
+
   } else if (pageAtual <= 5 && pagesLength < 9) {
     let primeiro = document.getElementById('pageLink1');
     let ultimo = document.getElementById('pageLink9');
