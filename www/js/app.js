@@ -131,12 +131,12 @@ var pagesLengthReal = 0.0;
 //                      //
 // ///////////////////  //
 
-atualizaNoticias(8, 1);
+atualizaNoticias(8, 1, undefined, true);
 
 
 async function pesquisar(pesquisa, categoria) {
   Framework7.request({
-    url: 'http://localhost/portal/webservice/index.php?search=' + pesquisa + '&catid=' + categoria,
+    url: 'http://educacaoambiental.sds.sc.gov.br/app_request.php?search=' + pesquisa + '&catid=' + categoria,
     method: "POST",
     data: 'inicial',
     dataType: 'json',
@@ -146,7 +146,6 @@ async function pesquisar(pesquisa, categoria) {
         dados = await JSON.parse(xhr.response);
         pagesLengthReal = await ((dados["length"] % 10));
         pagesLength = await Math.trunc(dados["length"] / 10);
-        await console.log('###############################' + pagesLength);
 
         pageAtual = 1;
         pageCount = ((pageAtual - 1) * 10)
@@ -192,10 +191,10 @@ async function pesquisar(pesquisa, categoria) {
   });
 }
 
-async function atualizaNoticias(catid, nextPage, search) {
+async function atualizaNoticias(catid, nextPage, search, firstLoad = false) {
   if (search === undefined) {
     Framework7.request({
-      url: 'http://localhost/portal/webservice/index.php?catid=' + catid,
+      url: 'http://educacaoambiental.sds.sc.gov.br/app_request.php?catid=' + catid,
       method: "POST",
       data: 'inicial',
       dataType: 'json',
@@ -244,8 +243,9 @@ async function atualizaNoticias(catid, nextPage, search) {
           }
           pagesLengthReal = ((dados["length"] % 10));
           pagesLength = Math.trunc(dados["length"] / 10);
-
-          atualizaPage(1);
+          if (firstLoad==true) {
+            atualizaPage(1);
+          }
         }
       }
     })
@@ -752,6 +752,7 @@ document.getElementById('filtroGteas').onclick = function () {
 
 
 function atualizaPage(icone, clickIcone) {
+  let top = document.getElementById('topTitle');
   let primeiro = document.getElementById('pageLink1');
   let ultimo = document.getElementById('pageLink9');
   let oitavo = document.getElementById("pageLink8");
@@ -1022,7 +1023,7 @@ function atualizaPage(icone, clickIcone) {
     if (clickIcone) {
       atualizaNoticias(topicoAtual, pageAtual, true);
     }
-  } else if (pageAtual==1 && pagesLength==1) {
+  } else if (pageAtual == 1 && pagesLength == 1) {
 
     let primeiro = document.getElementById('pageLink1');
     let ultimo = document.getElementById('pageLink9');
@@ -1211,9 +1212,5 @@ function atualizaPage(icone, clickIcone) {
 
     atualizaNoticias(topicoAtual, pageAtual, true);
   }
-
-
-
-
-
+  document.getElementById('search').focus();
 }
